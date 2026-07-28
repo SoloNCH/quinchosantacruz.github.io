@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disponibilidad | El Quincho</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="hero hero-small">
+        <div class="hero-content">
+            <h1>Disponibilidad</h1>
+            <a href="index.html" class="btn-back">&larr; Volver al inicio</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="calendar-section">
+            <div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <button id="prevMonth" class="cal-btn">&lt;</button>
+                    <h2 id="monthYear">Mes Año</h2>
+                    <button id="nextMonth" class="cal-btn">&gt;</button>
+                </div>
+                <div class="calendar-days-header">
+                    <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
+                </div>
+                <div id="calendarGrid" class="calendar-grid">
+                    <!-- Los días se inyectan acá mediante JS -->
+                </div>
+            </div>
+            
+            <div class="calendar-legend">
+                <div class="legend-item"><span class="box free"></span> Disponible</div>
+                <div class="legend-item"><span class="box booked"></span> Reservado</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/calendar.js"></script>
+</body>
+</html>
