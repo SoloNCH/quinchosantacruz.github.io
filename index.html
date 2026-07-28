@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Quincho | Alquiler para Eventos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Quincho Santa Cruz</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Carrusel de Imágenes -->
+        <section class="slider-section">
+            <h2>imágenes del lugar</h2>
+            <div class="slider-container">
+                <div class="slide active" style="background-image: url('media/1.webp');"></div>
+                <div class="slide" style="background-image: url('media/2.webp');"></div>
+                <div class="slide" style="background-image: url('media/3.webp');"></div>
+                <div class="slide" style="background-image: url('media/4.webp');"></div>
+                <div class="slide" style="background-image: url('media/5.webp');"></div>
+                <div class="slide" style="background-image: url('media/6.webp');"></div>
+                <div class="slide" style="background-image: url('media/7.webp');"></div>
+                <div class="slide" style="background-image: url('media/8.webp');"></div>
+                <!-- Agregá más divs de fotos aquí -->
+            </div>
+            <div class="slider-controls">
+                <button id="prevBtn" aria-label="Anterior">&#10094;</button>
+                <button id="nextBtn" aria-label="Siguiente">&#10095;</button>
+            </div>
+        </section>
+
+        <!-- Video de presentación -->
+        <section class="video-section">
+            <h2>Conocé el lugar</h2>
+            <div class="video-wrapper">
+                <!-- Reemplazá el src con tu archivo local -->
+                <video controls poster="assets/poster.jpg">
+                    <source src="media/WhatsApp Video 2026-07-28 at 6.45.36 PM (1).mp4" type="video/mp4">
+                    Tu navegador no soporta la etiqueta de video.
+                </video>
+            </div>
+        </section>
+
+        <!-- Botones de Acción -->
+        <section class="actions-section">
+            <!-- Reemplazá el número con tu WhatsApp (incluí el código de país sin el +) -->
+            <a href="https://wa.me/5493884662267?text=Hola,%20quiero%20hacer%20una%20consulta%20general%20sobre%20el%20quincho." target="_blank" class="btn btn-whatsapp">
+                Consultas por WhatsApp
+            </a>
+            <!-- Reemplazá con tu enlace de Google Maps -->
+            <a href="https://maps.app.goo.gl/UyB1MtEyKKJAqDVGA" target="_blank" class="btn btn-maps">
+                Ubicación en Google Maps
+            </a>
+            <a href="calendario.html" class="btn btn-primary">
+                Ver Disponibilidad
+            </a>
+        </section>
+    </main>
+
+    <script src="js/slider.js"></script>
+</body>
+</html>
