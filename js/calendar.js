@@ -1,15 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // -----------------------------------------
-    // CONFIGURACIÓN DE DISPONIBILIDAD
-    // Agregá las fechas ocupadas en formato 'YYYY-MM-DD'
-    // -----------------------------------------
-    const diasOcupados = [
-        '2026-08-15',
-        '2026-08-22',
-        '2026-08-28'
-    ];
-
-    // Número de teléfono para las reservas (sin el '+')
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRUXsb_KvJIHZmlDHH-LhGmaQ_uL1c_zLDhpCLJX43TLdojfTd1pQSDolHBxTUX2v_0wF4rrIMFtYcS/pub?gid=0&single=true&output=csv';
+    
     const numeroWhatsApp = '5493884662267'; 
 
     // Elementos del DOM
@@ -18,53 +9,67 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.getElementById('prevMonth');
     const nextBtn = document.getElementById('nextMonth');
 
-    let currentDate = new Date(); // Mes actual a mostrar
+    let currentDate = new Date();
+    let diasOcupados = [];
+
+    // Función para descargar las fechas de Google Sheets en tiempo real
+    const cargarDiasOcupados = async () => {
+        try {
+            const response = await fetch(SHEET_CSV_URL);
+            const csvText = await response.text();
+            
+            // Convertimos el texto CSV en un array limpio de fechas
+            diasOcupados = csvText
+                .split('\n')
+                .map(row => row.trim())
+                .filter(fecha => fecha.length > 0 && fecha !== 'fecha'); // Ignora el encabezado y líneas vacías
+
+            renderCalendar(); // Una vez cargados los datos, dibujamos el calendario
+        } catch (error) {
+            console.error('Error al cargar las reservas:', error);
+            // Si falla la red, renderiza igual para que la web no se rompa
+            renderCalendar();
+        }
+    };
 
     const renderCalendar = () => {
         calendarGrid.innerHTML = '';
         
         const year = currentDate.getFullYear();
-        const month = currentDate.getMonth(); // 0 a 11
+        const month = currentDate.getMonth();
 
-        // Nombre del mes y año en español
         const monthNames = [
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
             'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
         monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
 
-        // Obtener el primer día del mes y la cantidad total de días
-        const firstDayIndex = new Date(year, month, 1).getDay(); // 0=Dom, 1=Lun...
+        const firstDayIndex = new Date(year, month, 1).getDay();
         const totalDays = new Date(year, month + 1, 0).getDate();
 
-        // 1. Rellenar los espacios vacíos antes del día 1
+        // 1. Espacios vacíos antes del día 1
         for (let i = 0; i < firstDayIndex; i++) {
             const emptyDiv = document.createElement('div');
             emptyDiv.classList.add('cal-day', 'empty');
             calendarGrid.appendChild(emptyDiv);
         }
 
-        // 2. Renderizar los días del mes
+        // 2. Días del mes
         for (let day = 1; day <= totalDays; day++) {
             const dayDiv = document.createElement('div');
             dayDiv.classList.add('cal-day');
             dayDiv.textContent = day;
 
-            // Formatear fecha a 'YYYY-MM-DD' (usando padStart para rellenar con ceros)
             const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
             if (diasOcupados.includes(dateString)) {
-                // Día ocupado
                 dayDiv.classList.add('booked');
                 dayDiv.title = "Reservado";
             } else {
-                // Día libre
                 dayDiv.classList.add('free');
                 dayDiv.title = "Libre - Haz clic para reservar";
                 
-                // Evento click: Abrir WhatsApp prearmado
                 dayDiv.addEventListener('click', () => {
-                    // Formatear la fecha para que sea legible en el mensaje (ej: 15/08/2026)
                     const fechaLegible = `${String(day).padStart(2, '0')}/${String(month + 1).padStart(2, '0')}/${year}`;
                     const mensaje = `Hola! Quiero reservar el quincho para el día ${fechaLegible}.`;
                     const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
@@ -76,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Listeners de navegación de meses
     prevBtn.addEventListener('click', () => {
         currentDate.setMonth(currentDate.getMonth() - 1);
         renderCalendar();
@@ -87,6 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCalendar();
     });
 
-    // Render inicial
-    renderCalendar();
+    // Iniciar el proceso descargando los datos de la planilla
+    cargarDiasOcupados();
 });
