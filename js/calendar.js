@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRUXsb_KvJIHZmlDHH-LhGmaQ_uL1c_zLDhpCLJX43TLdojfTd1pQSDolHBxTUX2v_0wF4rrIMFtYcS/pub?gid=0&single=true&output=csv';
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTAO1leoxWng7d_lstp4CesbnYWW3HGkbnjGUwDgILrQFIMmsuHFRl2jRNEfsKOY1lrhkCILGmVuHV4/pub?gid=0&single=true&output=csv';
     
     const numeroWhatsApp = '5493884662267'; 
 
