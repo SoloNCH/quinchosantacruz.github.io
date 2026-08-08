@@ -258,6 +258,24 @@ h1, h2 {
     gap: 2rem;
     margin-top: 1.5rem;
 }
+.calendar-days-header,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  text-align: center;
+}
+.calendar-day:first-child {
+  grid-column-start: 7;
+}
+.calendar-day.disabled,
+.calendar-day.booked {
+  background-color: #8b4a54; /* El tono rojizo que estás usando */
+  color: #ffffff;            /* O #ffffff88 si buscas opacidad */
+  text-decoration: none;     /* Quita cualquier tachado predeterminado */
+  cursor: not-allowed;
+}
+
 
 .legend-item { display: flex; align-items: center; gap: 0.5rem; }
 .legend-item .box { width: 16px; height: 16px; border-radius: 4px; }
