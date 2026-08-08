@@ -1,33 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTAO1leoxWng7d_lstp4CesbnYWW3HGkbnjGUwDgILrQFIMmsuHFRl2jRNEfsKOY1lrhkCILGmVuHV4/pub?gid=0&single=true&output=csv';
-    
+   
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRUXsb_KvJIHZmlDHH-LhGmaQ_uL1c_zLDhpCLJX43TLdojfTd1pQSDolHBxTUX2v_0wF4rrIMFtYcS/pub?gid=0&single=true&output=csv';
     const numeroWhatsApp = '5493884662267'; 
 
-    // Elementos del DOM
     const monthYearDisplay = document.getElementById('monthYear');
     const calendarGrid = document.getElementById('calendarGrid');
     const prevBtn = document.getElementById('prevMonth');
     const nextBtn = document.getElementById('nextMonth');
 
     let currentDate = new Date();
-    let diasOcupados = [];
 
-    // Función para descargar las fechas de Google Sheets en tiempo real
+    let reservas = {};
+
     const cargarDiasOcupados = async () => {
         try {
             const response = await fetch(SHEET_CSV_URL);
             const csvText = await response.text();
             
-            // Convertimos el texto CSV en un array limpio de fechas
-            diasOcupados = csvText
-                .split('\n')
-                .map(row => row.trim())
-                .filter(fecha => fecha.length > 0 && fecha !== 'fecha'); // Ignora el encabezado y líneas vacías
+            reservas = {};
+            
+            // Separar filas
+            const rows = csvText.split('\n');
+            
+            rows.forEach((row, index) => {
+                if (index === 0) return; 
+                
+               
+                const cols = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+                const fecha = cols[0];
+                const apellido = cols[1] || ''; 
+                
+                if (fecha && fecha.length >= 8) {
+                    reservas[fecha] = apellido;
+                }
+            });
 
-            renderCalendar(); // Una vez cargados los datos, dibujamos el calendario
+            renderCalendar();
         } catch (error) {
             console.error('Error al cargar las reservas:', error);
-            // Si falla la red, renderiza igual para que la web no se rompa
             renderCalendar();
         }
     };
@@ -47,25 +57,39 @@ document.addEventListener('DOMContentLoaded', () => {
         const firstDayIndex = new Date(year, month, 1).getDay();
         const totalDays = new Date(year, month + 1, 0).getDate();
 
-        // 1. Espacios vacíos antes del día 1
+ 
         for (let i = 0; i < firstDayIndex; i++) {
             const emptyDiv = document.createElement('div');
             emptyDiv.classList.add('cal-day', 'empty');
             calendarGrid.appendChild(emptyDiv);
         }
 
-        // 2. Días del mes
+    
         for (let day = 1; day <= totalDays; day++) {
             const dayDiv = document.createElement('div');
             dayDiv.classList.add('cal-day');
-            dayDiv.textContent = day;
 
             const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
-            if (diasOcupados.includes(dateString)) {
+          
+            if (dateString in reservas) {
+                const apellido = reservas[dateString];
                 dayDiv.classList.add('booked');
-                dayDiv.title = "Reservado";
+                
+                const numSpan = document.createElement('span');
+                numSpan.classList.add('day-number');
+                numSpan.textContent = day;
+
+                const nameSpan = document.createElement('span');
+                nameSpan.classList.add('day-name');
+                nameSpan.textContent = apellido;
+
+                dayDiv.appendChild(numSpan);
+                dayDiv.appendChild(nameSpan);
+
+                dayDiv.title = apellido ? `Reservado por ${apellido}` : "Reservado";
             } else {
+                dayDiv.textContent = day;
                 dayDiv.classList.add('free');
                 dayDiv.title = "Libre - Haz clic para reservar";
                 
@@ -91,6 +115,5 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCalendar();
     });
 
-    // Iniciar el proceso descargando los datos de la planilla
     cargarDiasOcupados();
 });
