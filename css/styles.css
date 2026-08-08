@@ -270,9 +270,9 @@ h1, h2 {
 }
 .calendar-day.disabled,
 .calendar-day.booked {
-  background-color: #8b4a54; /* El tono rojizo que estás usando */
-  color: #ffffff;            /* O #ffffff88 si buscas opacidad */
-  text-decoration: none;     /* Quita cualquier tachado predeterminado */
+  background-color: #8b4a54; 
+  color: #ffffff;           
+  text-decoration: none;     
   cursor: not-allowed;
 }
 
