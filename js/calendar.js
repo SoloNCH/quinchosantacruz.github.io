@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderCalendar = () => {
+        
         calendarGrid.innerHTML = '';
         
         const year = currentDate.getFullYear();
@@ -60,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
             promoBadge.id = 'promoBadge';
             promoBadge.classList.add('promo-badge');
             promoBadge.innerHTML = '🔥 ¡MES DE PROMOCIÓN! 🔥';
-            monthYearDisplay.insertAdjacentElement('afterend', promoBadge);
+            monthYearDisplay.insertAdjacentElement('beforebegin', promoBadge);
         }
 
         const firstDayIndex = new Date(year, month, 1).getDay();
