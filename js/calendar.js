@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderCalendar = () => {
-        
         calendarGrid.innerHTML = '';
         
         const year = currentDate.getFullYear();
@@ -50,8 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
 
-        let monthTitle = `${monthNames[month]} ${year}`;
-        monthYearDisplay.textContent = monthTitle;
+        monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
 
         const promoBadgeExistente = document.getElementById('promoBadge');
         if (promoBadgeExistente) promoBadgeExistente.remove();
@@ -63,13 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
             promoBadge.innerHTML = '🔥 ¡MES DE PROMOCIÓN! 🔥';
             monthYearDisplay.insertAdjacentElement('beforebegin', promoBadge);
         }
-const firstDayIndex = new Date(2026, 7, 1).getDay(); // Retorna 6 (Sábado)
-
-for (let i = 0; i < firstDayIndex; i++) {
-  const emptyCell = document.createElement('div');
-  emptyCell.classList.add('calendar-day', 'empty');
-  calendarGrid.appendChild(emptyCell);
-}
 
         const firstDayIndex = new Date(year, month, 1).getDay();
         const totalDays = new Date(year, month + 1, 0).getDate();
