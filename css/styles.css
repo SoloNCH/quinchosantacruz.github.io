@@ -171,9 +171,7 @@ h1, h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
 }
-
 .cal-btn {
     background: none;
     border: 1px solid var(--text-secondary);
@@ -280,17 +278,22 @@ h1, h2 {
     background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #b8962c 100%);
     color: #121212;
     font-weight: 800;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     text-align: center;
-    padding: 6px 14px;
+    padding: 4px 12px;
     border-radius: 20px;
-    margin: -0.5rem auto 1.2rem auto;
+    margin-bottom: 0.4rem;
     width: fit-content;
     box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
     letter-spacing: 0.5px;
     animation: pulsePromo 2s infinite;
 }
-
+#monthYear {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0;
+}
 @keyframes pulsePromo {
     0% {
         transform: scale(1);
