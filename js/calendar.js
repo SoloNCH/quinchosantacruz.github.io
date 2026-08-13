@@ -91,9 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     dayDiv.appendChild(nameSpan);
                 }
 
-                // --- NUEVA LÓGICA DE LA BURBUJA DE TEXTO ---
+               
                 dayDiv.addEventListener('click', () => {
-                    // Borramos cualquier otra burbuja que haya quedado abierta
+             
                     document.querySelectorAll('.burbuja-reserva').forEach(b => b.remove());
                     
                     const bubble = document.createElement('div');
@@ -102,12 +102,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     dayDiv.appendChild(bubble);
                     
-                    // La burbuja desaparece sola después de 2.5 segundos
+           
                     setTimeout(() => {
                         if(bubble.parentElement) bubble.remove();
                     }, 2500);
                 });
-                // -------------------------------------------
+                // 
 
             } else {
                 dayDiv.textContent = day;
