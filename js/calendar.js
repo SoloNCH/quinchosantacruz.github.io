@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const calendarGrid = document.getElementById('calendarGrid');
     const prevBtn = document.getElementById('prevMonth');
     const nextBtn = document.getElementById('nextMonth');
+    const promoContainer = document.getElementById('promoBadgeContainer');
 
     let currentDate = new Date();
     let reservas = {};
@@ -40,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const renderCalendar = () => {
         calendarGrid.innerHTML = '';
+        if (promoContainer) promoContainer.innerHTML = '';
         
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth();
@@ -51,15 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
 
-        const promoBadgeExistente = document.getElementById('promoBadge');
-        if (promoBadgeExistente) promoBadgeExistente.remove();
-
-        if (month === 7) {
+        if (month === 7 && promoContainer) {
             const promoBadge = document.createElement('div');
-            promoBadge.id = 'promoBadge';
             promoBadge.classList.add('promo-badge');
             promoBadge.innerHTML = '🔥 ¡MES DE PROMOCIÓN! 🔥';
-            monthYearDisplay.insertAdjacentElement('beforebegin', promoBadge);
+            promoContainer.appendChild(promoBadge);
         }
 
         const firstDayIndex = new Date(year, month, 1).getDay();
@@ -91,10 +89,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     nameSpan.classList.add('day-name');
                     nameSpan.textContent = apellido;
                     dayDiv.appendChild(nameSpan);
-                    dayDiv.title = `Reservado por ${apellido}`;
-                } else {
-                    dayDiv.title = "Reservado";
                 }
+
+                // --- NUEVA LÓGICA DE LA BURBUJA DE TEXTO ---
+                dayDiv.addEventListener('click', () => {
+                    // Borramos cualquier otra burbuja que haya quedado abierta
+                    document.querySelectorAll('.burbuja-reserva').forEach(b => b.remove());
+                    
+                    const bubble = document.createElement('div');
+                    bubble.classList.add('burbuja-reserva');
+                    bubble.textContent = apellido ? `Reservado por: ${apellido}` : 'Día reservado';
+                    
+                    dayDiv.appendChild(bubble);
+                    
+                    // La burbuja desaparece sola después de 2.5 segundos
+                    setTimeout(() => {
+                        if(bubble.parentElement) bubble.remove();
+                    }, 2500);
+                });
+                // -------------------------------------------
+
             } else {
                 dayDiv.textContent = day;
                 dayDiv.classList.add('free');
