@@ -209,8 +209,7 @@ h1, h2 {
     background-color: #2a2a2a;
     transition: all 0.2s ease;
     padding: 2px;
-    overflow: hidden;
-    position: relative;
+    position: relative; 
 }
 .cal-day .day-number {
     font-weight: bold;
@@ -220,17 +219,17 @@ h1, h2 {
 
 .cal-day.empty { background-color: transparent; }
 .cal-day .day-name {
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     text-transform: uppercase;
     margin-top: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 95%;
+    text-align: center;
+    width: 100%;
+    white-space: normal; 
+    word-wrap: break-word;
+    line-height: 1.1;
     color: #ffffff;
     font-weight: 600;
 }
-
 .cal-day.free {
     cursor: pointer;
     color: var(--text-primary);
@@ -244,8 +243,15 @@ h1, h2 {
 .cal-day.booked {
     background-color: var(--danger-color);
     color: #fff;
-    cursor: not-allowed;
+    cursor: pointer; 
     opacity: 0.85;
+}
+.cal-day.booked .day-number {
+    font-weight: bold;
+    font-size: 0.95rem;
+    line-height: 1;
+    text-decoration: line-through; 
+    opacity: 0.8;
 }
 .cal-day.booked:not(:has(.day-name)) {
     text-decoration: line-through;
@@ -325,4 +331,37 @@ h1, h2 {
         transform: scale(1);
         box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
     }
+}
+.burbuja-reserva {
+    position: absolute;
+    bottom: 115%; 
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f5f5f5;
+    color: #121212;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    white-space: nowrap; 
+    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    animation: aparecerBurbuja 0.2s ease-out forwards;
+    pointer-events: none; 
+}
+.burbuja-reserva::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #f5f5f5 transparent transparent transparent;
+}
+
+
+@keyframes aparecerBurbuja {
+    from { opacity: 0; transform: translate(-50%, 10px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
 }
